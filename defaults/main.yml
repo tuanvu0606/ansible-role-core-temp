@@ -1,0 +1,9 @@
+---
+# default variables for coretemps
+
+application_name: "Core Temp"
+application_action: install
+coretemp_portable_directory: D
+coretemp_download_url: "{{ 'https://www.alcpu.com/CoreTemp/CoreTemp64.zip' if ansible_architecture == '64-bit' else 'https://www.alcpu.com/CoreTemp/CoreTemp32.zip' }}"
+coretemp_download_zip_destination: '{{ coretemp_portable_directory }}:\CoreTemp{{ ansible_architecture }}.zip'
+coretemp_portable_folder: '{{ coretemp_portable_directory }}:\CoreTemp'

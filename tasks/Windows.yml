@@ -1,0 +1,27 @@
+---
+
+- name: Download {{ application_name }} zip file for {{ ansible_architecture }}
+  win_get_url:
+    url: "{{ coretemp_download_url }}"
+    dest: "{{ coretemp_download_zip_destination }}"
+
+- name: Unzip {{ application_name }} zip file
+  win_unzip:
+    src: "{{ coretemp_download_zip_destination }}"
+    dest: "{{ coretemp_portable_folder }}"
+    creates: "{{ coretemp_portable_folder }}"
+
+- name: Create an {{ application_name }} shortcut on the desktop
+  win_shortcut:
+    src: '{{ coretemp_portable_folder }}\Core Temp.exe'
+    dest: C:\Users\Public\Desktop\Core Temp.exe.lnk
+    icon: '{{ coretemp_portable_folder }}\Core Temp.exe,0'
+    state: present
+
+# clean up
+
+- name: Remove {{ application_name }} files
+  win_file:
+    path: "{{ coretemp_download_zip_destination }}"
+    state: absent
+  changed_when: false
